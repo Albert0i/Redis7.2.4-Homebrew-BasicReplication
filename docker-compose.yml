@@ -1,0 +1,53 @@
+version: "3"
+services:
+  # Primary
+  primary:
+    build: 
+      context: .
+    image: 
+      ${IMAGE_NAME}:${IMAGE_VERSION}
+    container_name:
+      primary
+    ports:
+      - 6379:6379
+    command:
+      ["redis-server",  "c:\\conf\\redis.conf"]
+    volumes:
+      - ${CONFIG_DIR}\conf\primary:c:\conf:ro
+      - ${CONFIG_DIR}\data\6379:c:\data:rw
+
+  # Replica 1
+  replica1:
+    image: 
+      ${IMAGE_NAME}:${IMAGE_VERSION}
+    container_name: 
+      replica1
+    ports:
+      - 6380:6380
+    command: 
+      ["redis-server",  "c:\\conf\\redis.conf"]
+    volumes:
+      - ${CONFIG_DIR}\conf\replica1:c:\conf:ro
+      - ${CONFIG_DIR}\data\6380:c:\data:rw
+    depends_on:
+        - primary
+
+  # Replica 2
+  replica2:
+    image: 
+      ${IMAGE_NAME}:${IMAGE_VERSION}
+    container_name: 
+      replica2
+    ports:
+      - 6381:6381
+    command: 
+      ["redis-server",  "c:\\conf\\redis.conf"]
+    volumes:
+      - ${CONFIG_DIR}\conf\replica2:c:\conf:ro
+      - ${CONFIG_DIR}\data\6381:c:\data:rw
+    depends_on:
+        - primary
+
+#
+# EOF (2024/07/03)
+#
