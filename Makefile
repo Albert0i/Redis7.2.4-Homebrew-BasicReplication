@@ -69,19 +69,19 @@ cmd:
 # start redis-cli on primary
 #
 cli:
-	docker-compose exec primary redis-cli --user ${AUTH_USER} --pass ${AUTH_PASS}
+	docker-compose exec primary redis-cli --user ${AUTH_USER} --pass ${AUTH_PASS} --no-auth-warning
 
 #
 # Replication info
 #
 info:
-	docker-compose exec primary redis-cli --user ${AUTH_USER} --pass ${AUTH_PASS} info replication
+	docker-compose exec primary redis-cli --user ${AUTH_USER} --pass ${AUTH_PASS} --no-auth-warning info replication
 
 #
 # Replication role
 #
 role:
-	docker-compose exec primary redis-cli --user ${AUTH_USER} --pass ${AUTH_PASS} role 
+	docker-compose exec primary redis-cli --user ${AUTH_USER} --pass ${AUTH_PASS} --no-auth-warning role 
 
 #
 # edit configuration
