@@ -1,4 +1,13 @@
 version: "3"
+
+networks:
+  re_cluster:
+    driver: nat
+    ipam:
+      driver: default
+      config:
+        - subnet: "192.168.1.0/24"
+
 services:
   # Primary
   primary:
@@ -15,6 +24,9 @@ services:
     volumes:
       - ${CONFIG_DIR}\conf\primary:c:\conf:ro
       - ${CONFIG_DIR}\data\6379:c:\data:rw
+    networks:
+      re_cluster:
+        ipv4_address: 192.168.1.11
 
   # Replica 1
   replica1:
@@ -29,6 +41,9 @@ services:
     volumes:
       - ${CONFIG_DIR}\conf\replica1:c:\conf:ro
       - ${CONFIG_DIR}\data\6380:c:\data:rw
+    networks:
+      re_cluster:
+        ipv4_address: 192.168.1.12
     depends_on:
         - primary
 
@@ -45,9 +60,12 @@ services:
     volumes:
       - ${CONFIG_DIR}\conf\replica2:c:\conf:ro
       - ${CONFIG_DIR}\data\6381:c:\data:rw
+    networks:
+      re_cluster:
+        ipv4_address: 192.168.1.13
     depends_on:
         - primary
 
 #
-# EOF (2024/07/03)
+# EOF (2024/07/05)
 #
